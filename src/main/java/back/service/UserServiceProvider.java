@@ -10,14 +10,19 @@ import back.domain.repository.UserRepository;
 @Service
 public class UserServiceProvider implements UserService {
 
-	private static final TypeUser TYPE_USER_SALESMAN = new TypeUser(1);
-
 	@Autowired
 	private UserRepository repository;
 
+	@Autowired
+	private TypeUserService typeUserService;
+
 	@Override
 	public User findByEmailAndPassword(String email, String password) {
-		return repository.findByEmailAndPasswordAndTypeUser(email, password, TYPE_USER_SALESMAN);
+		TypeUser typeUser = typeUserService.findByDescription("Vendedor");
+		if (typeUser == null) {
+			return null;
+		}
+		return repository.findByEmailAndPasswordAndTypeUser(email, password, typeUser);
 	}
 
 	@Override
