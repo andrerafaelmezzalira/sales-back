@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class CustomerRequest {
 	@Column(name = "valor_total")
 	private BigDecimal amount;
 
-	@OneToMany(mappedBy = "customerRequest")
+	@OneToMany(mappedBy = "customerRequest", fetch = FetchType.LAZY)
 	private List<CustomerRequestProduct> itens;
 
 	public void setItens(List<CustomerRequestProduct> itens) {

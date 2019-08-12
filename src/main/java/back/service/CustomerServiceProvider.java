@@ -15,10 +15,12 @@ public class CustomerServiceProvider implements CustomerService {
 	private CustomerRepository repository;
 
 	@Override
-	public void save(Customer customer) throws IllegalAccessException {
+	public Customer save(Customer customer) throws IllegalAccessException {
 
 		validations(customer);
 		repository.save(customer);
+		
+		return customer;
 	}
 
 	private void validations(Customer customer) throws IllegalAccessException {

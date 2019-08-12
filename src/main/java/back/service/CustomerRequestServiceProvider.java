@@ -22,10 +22,12 @@ public class CustomerRequestServiceProvider implements CustomerRequestService {
 	private CustomerRequestRepository repository;
 
 	@Override
-	public void save(CustomerRequest customerRequest) throws IllegalAccessException {
+	public CustomerRequest save(CustomerRequest customerRequest) throws IllegalAccessException {
 
 		validations(customerRequest);
 		repository.save(customerRequest);
+
+		return customerRequest;
 	}
 
 	private void validations(CustomerRequest customerRequest) throws IllegalAccessException {
@@ -59,12 +61,12 @@ public class CustomerRequestServiceProvider implements CustomerRequestService {
 	}
 
 	@Override
-	public void finalizeCustomerRequest(Integer id) throws IllegalAccessException {
+	public CustomerRequest finalizeCustomerRequest(Integer id) throws IllegalAccessException {
 		CustomerRequest customerRequest = findById(id);
 		if (customerRequest == null) {
 			throw new IllegalAccessException("Pedido não encontrado");
 		}
 		customerRequest.setEmissionDate(LocalDate.now());
-		save(customerRequest);
+		return save(customerRequest);
 	}
 }

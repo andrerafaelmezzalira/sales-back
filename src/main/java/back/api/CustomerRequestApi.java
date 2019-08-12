@@ -20,13 +20,13 @@ public class CustomerRequestApi {
 	private CustomerRequestService service;
 
 	@RequestMapping(value = "/pedido", method = { RequestMethod.POST, RequestMethod.PUT })
-	public void save(@RequestBody CustomerRequest customerRequest) throws IllegalAccessException {
-		service.save(customerRequest);
+	public @ResponseBody CustomerRequest save(@RequestBody CustomerRequest customerRequest) throws IllegalAccessException {
+		return service.save(customerRequest);
 	}
 
 	@RequestMapping(value = "/finalizarPedido/{id}")
-	public void finalizeCustomerRequest(@PathVariable Integer id) throws IllegalAccessException {
-		service.finalizeCustomerRequest(id);
+	public @ResponseBody CustomerRequest finalizeCustomerRequest(@PathVariable Integer id) throws IllegalAccessException {
+		return service.finalizeCustomerRequest(id);
 	}
 
 	@RequestMapping(value = "/pedidos")

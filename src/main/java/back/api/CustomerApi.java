@@ -20,8 +20,8 @@ public class CustomerApi {
 	private CustomerService service;
 
 	@RequestMapping(value = "/cliente", method = { RequestMethod.PUT, RequestMethod.POST })
-	public void save(@RequestBody Customer customer) throws IllegalAccessException {
-		service.save(customer);
+	public @ResponseBody Customer save(@RequestBody Customer customer) throws IllegalAccessException {
+		return service.save(customer);
 	}
 
 	@RequestMapping(value = "/clientes/{name}", method = RequestMethod.GET)

@@ -6,7 +6,7 @@ import back.domain.entity.Customer;
 
 public interface CustomerService {
 
-	void save(Customer customer) throws IllegalAccessException;
+	Customer save(Customer customer) throws IllegalAccessException;
 
 	List<Customer> findByNameContaining(String name);
 }

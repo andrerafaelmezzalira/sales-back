@@ -1,6 +1,7 @@
 package back.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class CustomerRequestProductServiceProvider implements CustomerRequestPro
 	private CustomerRequestService customerRequestService;
 
 	@Override
-	public void save(CustomerRequestProduct customerRequestProduct) throws IllegalAccessException {
+	public CustomerRequestProduct save(CustomerRequestProduct customerRequestProduct) throws IllegalAccessException {
 
 		validations(customerRequestProduct);
 
@@ -44,6 +45,8 @@ public class CustomerRequestProductServiceProvider implements CustomerRequestPro
 		customerRequest.setAmount(customerRequest.getAmount().add(new BigDecimal(ammount)));
 
 		updateAmmountCustomerRequest(customerRequest);
+
+		return customerRequestProduct;
 	}
 
 	@Override
@@ -87,5 +90,10 @@ public class CustomerRequestProductServiceProvider implements CustomerRequestPro
 
 	private void updateAmmountCustomerRequest(CustomerRequest customerRequest) throws IllegalAccessException {
 		customerRequestService.save(customerRequest);
+	}
+
+	@Override
+	public List<CustomerRequestProduct> findByCustomerRequest(CustomerRequest customerRequest) {
+		return repository.findByCustomerRequest(customerRequest);
 	}
 }
