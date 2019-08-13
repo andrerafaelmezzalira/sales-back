@@ -6,14 +6,15 @@ import org.springframework.data.repository.Repository;
 
 import back.domain.entity.CustomerRequest;
 import back.domain.entity.CustomerRequestProduct;
+import back.domain.entity.CustomerRequestProductId;
 
-public interface CustomerRequestProductRepository extends Repository<CustomerRequestProduct, Integer> {
+public interface CustomerRequestProductRepository extends Repository<CustomerRequestProduct, CustomerRequestProductId> {
 
 	void save(CustomerRequestProduct customerRequestProduct);
 
 	void delete(CustomerRequestProduct customerRequestProduct);
 
-	CustomerRequestProduct findById(Integer id);
-	
+	CustomerRequestProduct findById(CustomerRequestProductId customerRequestProductId);
+
 	List<CustomerRequestProduct> findByCustomerRequest(CustomerRequest customerRequest);
 }

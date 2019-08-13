@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import back.domain.entity.CustomerRequest;
 import back.domain.entity.CustomerRequestProduct;
+import back.domain.entity.CustomerRequestProductId;
+import back.domain.entity.Product;
 import back.domain.repository.CustomerRequestProductRepository;
 
 @Service
@@ -25,10 +27,14 @@ public class CustomerRequestProductServiceProvider implements CustomerRequestPro
 		validations(customerRequestProduct);
 
 		double ammountSubstract = 0.0;
-		if (customerRequestProduct.getId() != null) {
+		CustomerRequestProductId customerRequestProductId = new CustomerRequestProductId();
+		customerRequestProductId.setCustomerRequest(customerRequestProduct.getCustomerRequest());
+		customerRequestProductId.setProduct(customerRequestProduct.getProduct());
+		CustomerRequestProduct customerRequestProductBd = repository.findById(customerRequestProductId);
+
+		if (customerRequestProductBd != null) {
 			// caso esteja alterando um item de pedido, devemos subtrair do valor total do
 			// pedido o valor para depois acertamos de acordo com a nova quantidade
-			CustomerRequestProduct customerRequestProductBd = repository.findById(customerRequestProduct.getId());
 			ammountSubstract = getAmmount(customerRequestProductBd);
 		}
 
@@ -50,22 +56,30 @@ public class CustomerRequestProductServiceProvider implements CustomerRequestPro
 	}
 
 	@Override
-	public void delete(Integer id) throws IllegalAccessException {
+	public void delete(Integer idCustomerRequest, Integer idProduct) throws IllegalAccessException {
 
-		CustomerRequestProduct customerRequestProduct = repository.findById(id);
+		CustomerRequestProductId customerRequestProductId = new CustomerRequestProductId();
+		Product product = new Product();
+		product.setId(idProduct);
+		customerRequestProductId.setProduct(product);
+		CustomerRequest customerRequest = new CustomerRequest();
+		customerRequest.setId(idCustomerRequest);
+		customerRequestProductId.setCustomerRequest(customerRequest);
+		CustomerRequestProduct customerRequestProduct = repository.findById(customerRequestProductId);
+		
 		if (customerRequestProduct == null) {
 			throw new IllegalAccessException("Item não localizado");
 		}
 
 		// update no valor total do pedido
-		CustomerRequest customerRequest = customerRequestService
+		CustomerRequest customerRequestBd = customerRequestService
 				.findById(customerRequestProduct.getCustomerRequest().getId());
 
 		double ammount = getAmmount(customerRequestProduct);
 
-		subtractAmmount(customerRequest, ammount);
+		subtractAmmount(customerRequestBd, ammount);
 
-		updateAmmountCustomerRequest(customerRequest);
+		updateAmmountCustomerRequest(customerRequestBd);
 
 		repository.delete(customerRequestProduct);
 	}

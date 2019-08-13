@@ -25,9 +25,9 @@ public class CustomerRequestProductApi {
 		return service.save(customerRequestProduct);
 	}
 
-	@RequestMapping(value = "/item/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable Integer id) throws IllegalAccessException {
-		service.delete(id);
+	@RequestMapping(value = "/item/{idCustomerRequest}/{idProduct}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable Integer idCustomerRequest, @PathVariable Integer idProduct) throws IllegalAccessException {
+		service.delete(idCustomerRequest, idProduct);
 	}
 
 	@RequestMapping(value = "/itens/pedido/{id}", method = RequestMethod.DELETE)

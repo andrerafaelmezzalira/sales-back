@@ -9,7 +9,7 @@ public interface CustomerRequestProductService {
 
 	CustomerRequestProduct save(CustomerRequestProduct customerRequestProduct) throws IllegalAccessException;
 
-	void delete(Integer id) throws IllegalAccessException;
-	
 	List<CustomerRequestProduct> findByCustomerRequest(CustomerRequest customerRequest);
+
+	void delete(Integer idCustomerRequest, Integer idProduct) throws IllegalAccessException;
 }
